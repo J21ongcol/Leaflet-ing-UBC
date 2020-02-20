@@ -37,22 +37,6 @@
       }
     ).addTo(map);
 
-    var myPoint = L.marker(
-      [49.265637, -123.256113]
-    ).addTo(map);
-
-    var myPoly = L.polygon(
-      [
-        [49.2797, -123.2678],
-        [49.2770, -123.2690],
-        [49.2791, -123.2723],
-        [49.2797, -123.2678],
-      ], {
-        color: 'red',
-        weight: 6
-      }
-    ).addTo(map);
-
     // load GeoJSON from a file on the web
     // $ is jQuery.
     $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
