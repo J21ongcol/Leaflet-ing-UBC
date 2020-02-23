@@ -12,7 +12,7 @@
 <body>
 
   <div id="mapid" style="width: 600px; height: 400px;"></div>
-  <div class='map-overlay' id='features'><h2>UBC Fields</h2><div id='pd'><p>Hover over a polygon!</p></div></div>
+  <div class='map-overlay' id='features'><h2>UBC Fields</h2><div id='pd'><p>Hover Over a Field!</p></div></div>
   <script>
 
     var map = L.map('mapid', {
@@ -21,7 +21,7 @@
       } // this object holds map options
     );
     var topoTiles = L.tileLayer(
-      'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+      'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
         maxZoom: 17,
         attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
       }
@@ -45,8 +45,8 @@
     
     function onEachTree(feature, layer) {
       
-       if (feature.properties && feature.properties.SURFACE_TYPE) {
-          layer.bindTooltip(feature.properties.SURFACE_TYPE);
+       if (feature.properties && feature.properties.NAME) {
+          layer.bindTooltip(feature.properties.NAME);
        }
     }
     
