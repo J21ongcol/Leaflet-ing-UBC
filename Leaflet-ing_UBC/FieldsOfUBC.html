@@ -41,19 +41,18 @@
 		).addTo(map);
       }
     );
-    
-    function onEachField(feature, layer) {
-      
-       if (feature.properties && feature.properties.NAME) {
-          layer.bindTooltip(feature.properties.NAME);
-       }
-    };
     var fieldMarkerOptions = {
     	fillColor: "#77FA64",
     	color: "#000",
     	opacity: 0.2,
     	
-}
+};
+    function onEachField(feature, layer) {
+      
+       if (feature.properties && feature.properties.NAME) {
+          layer.bindTooltip(feature.properties.NAME);
+       }
+    }    
     
   </script>
 </body>
