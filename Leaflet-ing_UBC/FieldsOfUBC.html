@@ -26,6 +26,13 @@
       }
     ).addTo(map);
    
+ var fieldMarkerOptions = {
+    	fillColor: "#77FA64",
+    	color: "#000",
+    	opacity: 0.2,
+    }
+     ).addTo(map);
+	  
     $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
       function(data) {
         
@@ -41,14 +48,7 @@
 		).addTo(map);
       }
     );
-    var fieldMarkerOptions = {
-    	fillColor: "#77FA64",
-    	color: "#000",
-    	opacity: 0.2,
-    }
-                ).addTo(map);
-}
-);
+   
     function onEachField(feature, layer) {
       
        if (feature.properties && feature.properties.NAME) {
