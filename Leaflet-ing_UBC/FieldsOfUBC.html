@@ -33,10 +33,10 @@
 		pointToLayer: function (feature, latlng) {
 			      return L.circleMaker(
                        latlng,
-			      treeMarkerOptions
+			      FieldMarkerOptions
 	);
 		},
-		onEachFeature: onEachTree
+		onEachFeature: onEachField
 	}
 		).addTo(map);
       }
