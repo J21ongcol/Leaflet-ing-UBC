@@ -42,7 +42,7 @@
       }
     );
     
-    function onEachTree(feature, layer) {
+    function onEachField(feature, layer) {
       
        if (feature.properties && feature.properties.NAME) {
           layer.bindTooltip(feature.properties.NAME);
