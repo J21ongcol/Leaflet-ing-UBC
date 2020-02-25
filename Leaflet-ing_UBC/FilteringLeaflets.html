@@ -32,7 +32,24 @@
       }
     ).addTo(map);
     
- function onEachField(feature, layer) {
+ 
+    var fieldGeoJSONdata;
+	
+    $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
+      function(data) {
+      fieldGeoJSONdata = data;
+        // Create event listener for ShowAllTrees Button:
+        document
+          .getElementById("showAllFieldsButton")
+          .addEventListener("click", addFields);
+
+        document
+          .getElementById("highlightFieldsButton")
+          .addEventListener("click", highlightfields);
+      }
+ );
+	
+  function onEachField(feature, layer) {
       
        if (feature.properties + feature.properties.NAME + feature.properties.SURFACE_TYPE) {
           layer.bindTooltip(feature.properties.NAME + " ( " + feature.properties.SURFACE_TYPE + " ) ");
@@ -89,22 +106,7 @@
       addFields();
       NAMEToHighlight = ""; // reset so that "Show All Trees" works.
     }    	
-    var fieldGeoJSONdata;
-	
-    $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
-      function(data) {
-      fieldGeoJSONdata = data;
-        // Create event listener for ShowAllTrees Button:
-        document
-          .getElementById("showAllFieldsButton")
-          .addEventListener("click", addFields);
-
-        document
-          .getElementById("highlightFieldsButton")
-          .addEventListener("click", highlightfields);
-      }
- );
-  
+	}
   </script>
 </body>
 </html>
