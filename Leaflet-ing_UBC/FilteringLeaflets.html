@@ -12,16 +12,14 @@
 <body>
 
   <div id="mapid" style="width: 600px; height: 400px;"></div>
-  <div class='map-overlay' id='features'><h2>UBC Fields</h2><div id='pd'><p>Hover Over a Field!</p></div></div>
-  <script>
-  
+ 
   <div id="controls" style="margin: 15px;">
     <button id="showAllFieldsButton">Show All Surface Types</button>
 
     <span style="display:inline-block; width: 30px"></span>
     <input type="text" id="highlightFieldsTextEntry" placeholder="Surface type">
     <button id="highlightFieldsButton">Highlight</button>
-
+	</div>
     var map = L.map('mapid', {
         center: [49.260352, -123.251217],
         zoom: 13.5
