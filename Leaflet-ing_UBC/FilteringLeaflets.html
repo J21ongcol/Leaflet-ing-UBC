@@ -31,7 +31,30 @@
         attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
       }
     ).addTo(map);
-     function FieldPointToLayer(feature, latlng) {
+    
+	
+    var fieldGeoJSONdata;
+	
+    $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
+      function(data) {
+      fieldGeoJSONdata = data;
+        // Create event listener for ShowAllTrees Button:
+        document
+          .getElementById("showAllFieldsButton")
+          .addEventListener("click", addFields);
+
+        document
+          .getElementById("highlightFieldsButton")
+          .addEventListener("click", highlightfields);
+      }
+    );
+ 
+    function onEachField(feature, layer) {
+      
+       if (feature.properties + feature.properties.NAME + feature.properties.SURFACE_TYPE) {
+          layer.bindTooltip(feature.properties.NAME + " ( " + feature.properties.SURFACE_TYPE + " ) ");
+       }
+	 function FieldPointToLayer(feature, latlng) {
       return L.circleMarker(
         latlng,
         FieldMarkerOptions
@@ -80,30 +103,8 @@
         .value;
       addFields();
       NAMEToHighlight = ""; // reset so that "Show All Trees" works.
-    }
-	
-    var fieldGeoJSONdata;
-	
-    $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
-      function(data) {
-      fieldGeoJSONdata = data;
-        // Create event listener for ShowAllTrees Button:
-        document
-          .getElementById("showAllFieldsButton")
-          .addEventListener("click", addFields);
-
-        document
-          .getElementById("highlightFieldsButton")
-          .addEventListener("click", highlightfields);
-      }
-    );
- 
-    function onEachField(feature, layer) {
-      
-       if (feature.properties + feature.properties.NAME + feature.properties.SURFACE_TYPE) {
-          layer.bindTooltip(feature.properties.NAME + " ( " + feature.properties.SURFACE_TYPE + " ) ");
-       }
     }    
+  }    
       
   </script>
 </body>
