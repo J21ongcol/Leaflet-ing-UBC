@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Leaflet Exercise</title>
+  <meta charset="utf-8" />
+  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+  <div id="mapid" style="width: 600px; height: 400px;"></div>
+  <div class='map-overlay' id='features'><h2>UBC Fields</h2><div id='pd'><p>Hover Over a Field!</p></div></div>
+  <script>
+  
+  <div id="controls" style="margin: 15px;">
+    <button id="showAllFieldsButton">Show All Surface Types</button>
+
+    <span style="display:inline-block; width: 30px"></span>
+    <input type="text" id="highlightFieldsTextEntry" placeholder="Surface type">
+    <button id="highlightFieldsButton">Highlight</button>
+
+    var map = L.map('mapid', {
+        center: [49.260352, -123.251217],
+        zoom: 13.5
+      } // this object holds map options
+    );
+   var Hydda_Full = L.tileLayer('https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
+        maxZoom: 17,
+        attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+      }
+    ).addTo(map);
+     
+    $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
+      function(data) {
+        
+        L.geoJson(data, {
+		pointToLayer: function (feature, latlng) {
+			      return L.circleMaker(
+                       latlng,
+			      FieldMarkerOptions
+	);
+		},
+		onEachFeature: onEachField
+	}
+		).addTo(map);
+      }
+    );
+ 
+    function onEachField(feature, layer) {
+      
+       if (feature.properties + feature.properties.NAME + feature.properties.SURFACE_TYPE) {
+          layer.bindTooltip(feature.properties.NAME + " ( " + feature.properties.SURFACE_TYPE + " ) ");
+       }
+    }    
+      
+  </script>
+</body>
+</html>
