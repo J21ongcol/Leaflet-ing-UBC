@@ -47,7 +47,6 @@
           .getElementById("highlightFieldsButton")
           .addEventListener("click", highlightfields);
       }
-    );
  
     function onEachField(feature, layer) {
       
@@ -97,14 +96,14 @@
     // This is set by someone pressing the highlight button.
     // If it's an empty string, then just draw everything.
 
-    function highlightTrees() {
+    function highlightFields() {
       NAMEToHighlight = document
         .getElementById("highlightTreesTextEntry")
         .value;
       addFields();
       NAMEToHighlight = ""; // reset so that "Show All Trees" works.
     }    
-  }    
+  );
       
   </script>
 </body>
