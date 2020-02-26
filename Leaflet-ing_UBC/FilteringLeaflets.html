@@ -61,7 +61,7 @@
       if (NAMEToHighlight === "") {
         return true;
         // In this case, we're not highlighting anything, so draw everything.
-      } else if (feature.properties + feature.properties.NAME + feature.properties.SURFACE_TYPE) {
+      } else if (feature.properties && feature.properties.NAME) {
         // We just checked to make sure there are properties to avoid an error
         //   by asking for the .TAXA when there are no properties.
         // Now, we need to check to see if the .TAXA *includes* the search string we're
