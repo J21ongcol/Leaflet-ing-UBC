@@ -42,6 +42,21 @@
       }
     ).addTo(map);
      
+	var fieldGeoJSONdata;
+     $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
+      function(data) {
+        // Store data for later:
+        fieldGeoJSONdata = data;
+        // Create event listener for ShowAllTrees Button:
+        document
+          .getElementById("showAllFieldsButton")
+          .addEventListener("click", addFields);
+        document
+          .getElementById("highlightFieldsButton")
+          .addEventListener("click", highlightFields);
+
+      }  
+	  
     var FieldMarkerOptions = {
       fillColor: "#007800",
       color: "#000",
@@ -107,23 +122,6 @@
       addFields();
       NAMEToHighlight = ""; // reset so that "Show All Trees" works.
     }
-
-    var fieldGeoJSONdata;
-
-     $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
-      function(data) {
-        // Store data for later:
-        fieldGeoJSONdata = data;
-        // Create event listener for ShowAllTrees Button:
-        document
-          .getElementById("showAllTreesButton")
-          .addEventListener("click", addFields);
-
-        document
-          .getElementById("highlightTreesButton")
-          .addEventListener("click", highlightFields);
-
-      }
     );
   </script>
 
