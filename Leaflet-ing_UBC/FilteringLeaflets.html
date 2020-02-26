@@ -33,22 +33,21 @@
     ).addTo(map);
     
    function onEachField(feature, layer) {
-      
        if (feature.properties + feature.properties.NAME + feature.properties.SURFACE_TYPE) {
           layer.bindTooltip(feature.properties.NAME + " ( " + feature.properties.SURFACE_TYPE + " ) ");
-       }function FieldPointToLayer(feature, latlng) {
-	 
+       }
+   }
+   function FieldPointToLayer(feature, latlng) {
       return L.circleMarker(
         latlng,
         FieldMarkerOptions
       );
     }
-
     function FieldsToFilter(feature, layer) {
       if (NAMEToHighlight === "") {
         return true;
         // In this case, we're not highlighting anything, so draw everything.
-      } else if (feature.properties && feature.properties.NAME) {
+      } else if (feature.properties + feature.properties.NAME + feature.properties.SURFACE_TYPE) {
         // We just checked to make sure there are properties to avoid an error
         //   by asking for the .TAXA when there are no properties.
         // Now, we need to check to see if the .TAXA *includes* the search string we're
@@ -69,7 +68,7 @@
         map.removeLayer(lastLayerAdded);
       }
       lastLayerAdded = L.geoJSON(fieldGeoJSONdata, {
-        pointToLayer: fieldPointToLayer,
+        pointToLayer: FieldPointToLayer,
         onEachFeature: onEachField,
         filter: FieldsToFilter
       });
@@ -82,7 +81,7 @@
 
     function highlightFields() {
       NAMEToHighlight = document
-        .getElementById("highlightTreesTextEntry")
+        .getElementById("highlightFieldsTextEntry")
         .value;
       addFields();
       NAMEToHighlight = ""; // reset so that "Show All Trees" works.	
@@ -99,7 +98,7 @@
 
         document
           .getElementById("highlightFieldsButton")
-          .addEventListener("click", highlightfields);
+          .addEventListener("click", highlightFields);
       }
 	      }
   </script>
