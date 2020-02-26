@@ -1,63 +1,70 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Leaflet Exercise</title>
   <meta charset="utf-8" />
-  
+
+  <!-- Leaflet styles and code. Place in the <head></head> element. -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 
+  <!-- jQuery is a library that simplifies many things in JavaScript. 
+	     We'll use it to retrieve data from the web. -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 </head>
+
 <body>
 
   <div id="mapid" style="width: 600px; height: 400px;"></div>
- 
+  <!-- Our web map will get placed into this div element -->
+
   <div id="controls" style="margin: 15px;">
-    <button id="showAllFieldsButton">Show All Surface Types</button>
+    <button id="showAllFieldsButton">Show All Fields</button>
 
     <span style="display:inline-block; width: 30px"></span>
-    <input type="text" id="highlightFieldsTextEntry" placeholder="Name of Field">
-    <button id="highlightFieldsButton">Highlight</button></div>
-	
-<script>
+    <input type="text" id="highlightFieldsTextEntry" placeholder="Field Name">
+    <button id="highlightFieldsButton">Highlight</button>
+
+  </div>
+
+  <script>
     var map = L.map('mapid', {
         center: [49.260352, -123.251217],
         zoom: 13.5
       } // this object holds map options
     );
-   var Hydda_Full = L.tileLayer('https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
+
+     var Hydda_Full = L.tileLayer('https://{s}.tile.openstreetmap.se/hydda/full/{z}/{x}/{y}.png', {
         maxZoom: 17,
         attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
       }
     ).addTo(map);
-    
-    var fieldGeoJSONdata;
-	
-    $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
-      function(data) {
-      fieldGeoJSONdata = data;
-        // Create event listener for ShowAllTrees Button:
-        document
-          .getElementById("showAllFieldsButton")
-          .addEventListener("click", addFields);
+     
+    var FieldMarkerOptions = {
+      fillColor: "#007800",
+      color: "#000",
+      weight: 1,
+      opacity: 0.2,
+      fillOpacity: 0.2
+    };
 
-        document
-          .getElementById("highlightFieldsButton")
-          .addEventListener("click", highlightFields);
+    function onEachField(feature, layer) {
+      // does this tree even have a property named TAXA?
+      if (feature.properties && feature.properties.NAME) {
+        layer.bindTooltip(feature.properties.NAME);
       }
-	  function onEachField(feature, layer) {
-       if (feature.properties + feature.properties.NAME + feature.properties.SURFACE_TYPE) {
-          layer.bindTooltip(feature.properties.NAME + " ( " + feature.properties.SURFACE_TYPE + " ) ");
-       }
-   }
-   function FieldPointToLayer(feature, latlng) {
+    }
+
+    function fieldPointToLayer(feature, latlng) {
       return L.circleMarker(
         latlng,
-        FieldMarkerOptions
+        fieldMarkerOptions
       );
     }
-    function FieldsToFilter(feature, layer) {
+
+    function fieldsToFilter(feature, layer) {
       if (NAMEToHighlight === "") {
         return true;
         // In this case, we're not highlighting anything, so draw everything.
@@ -66,7 +73,7 @@
         //   by asking for the .TAXA when there are no properties.
         // Now, we need to check to see if the .TAXA *includes* the search string we're
         //   trying to highlight.
-        return feature.properties.NAME.toLowerCase().includes(NAMEToHighlight.toLowerCase());
+        return feature.properties.TAXA.toLowerCase().includes(NAMEToHighlight.toLowerCase());
         // We ignore uppercase/lowercase differences.
       } else {
         return false;
@@ -74,32 +81,52 @@
         // Don't display them.
       }
     }
+
     var lastLayerAdded = {};
 
     function addFields() {
       if (map.hasLayer(lastLayerAdded)) {
         map.removeLayer(lastLayerAdded);
       }
-      lastLayerAdded = L.geoJSON(fieldGeoJSONdata, {
-        pointToLayer: FieldPointToLayer,
+      lastLayerAdded = L.geoJSON(FieldGeoJSONdata, {
+        pointToLayer: fieldPointToLayer,
         onEachFeature: onEachField,
-        filter: FieldsToFilter
+        filter: fieldsToFilter
       });
       lastLayerAdded.addTo(map);
     };
 
-    var NAMEToHighlight = "";
+    var taxaToHighlight = "";
     // This is set by someone pressing the highlight button.
     // If it's an empty string, then just draw everything.
 
     function highlightFields() {
       NAMEToHighlight = document
-        .getElementById("highlightFieldsTextEntry")
+        .getElementById("highlightTreesTextEntry")
         .value;
       addFields();
-      NAMEToHighlight = ""; // reset so that "Show All Trees" works.	
-	}    
-	} 
+      NAMEToHighlight = ""; // reset so that "Show All Trees" works.
+    }
+
+    var fieldGeoJSONdata;
+
+     $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
+      function(data) {
+        // Store data for later:
+        fieldGeoJSONdata = data;
+        // Create event listener for ShowAllTrees Button:
+        document
+          .getElementById("showAllTreesButton")
+          .addEventListener("click", addFields);
+
+        document
+          .getElementById("highlightTreesButton")
+          .addEventListener("click", highlightFields);
+
+      }
+    );
   </script>
+
 </body>
+
 </html>
