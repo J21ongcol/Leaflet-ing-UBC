@@ -2,14 +2,14 @@
 <html>
 
 <head>
-  <title>Leaflet Exercise</title>
+  <title>Filter Exercise</title>
   <meta charset="utf-8" />
 
   <!-- Leaflet styles and code. Place in the <head></head> element. -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
 
-  <!-- jQuery is a library that simplifies many things in JavaScript. 
+  <!-- jQuery is a library that simplifies many things in JavaScript.
 	     We'll use it to retrieve data from the web. -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
@@ -41,7 +41,7 @@
         attribution: 'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
       }
     ).addTo(map);
-	  
+
     var FieldMarkerOptions = {
       fillColor: "#007800",
       color: "#000",
@@ -108,7 +108,7 @@
       NAMEToHighlight = ""; // reset so that "Show All Trees" works.
     }
     var fieldGeoJSONdata;
-	    
+
      $.getJSON("https://raw.githubusercontent.com/UBCGeodata/ubcv-landscape/master/geojson/ubcv_landscape_features.geojson",
       function(data) {
         // Store data for later:
@@ -121,8 +121,8 @@
           .getElementById("highlightFieldsButton")
           .addEventListener("click", highlightFields);
 
-      }  
-    
+      }
+
     );
   </script>
 
